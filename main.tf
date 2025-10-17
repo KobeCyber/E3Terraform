@@ -44,7 +44,7 @@ data "aws_vpc" "default" {
 }
 
 # Fetch default subnet
-data "aws_subnet_ids" "default_subnets" {
+data "aws_subnets" "default_subnets" {
   vpc_id = data.aws_vpc.default.id
 }
 
@@ -53,7 +53,7 @@ resource "aws_instance" "web_server" {
   ami                         = "ami-0e8459476fed2e23b"  # Ubuntu Linux 24 LTS AMI in us-east-1
   instance_type               = var.instance_type
   key_name                   = var.key_name
-  subnet_id                  = data.aws_subnet_ids.default_subnets.ids[0]
+  subnet_id                  = data.aws_subnets.default_subnets.ids[0]
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
 
   tags = {
